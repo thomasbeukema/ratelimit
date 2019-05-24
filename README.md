@@ -12,7 +12,7 @@ The ratelimit package allows for easy rate limiting in your Go application. It i
 ## Installation
 
 ```bash
-go get github.com/thomasbeukema/ratelimiter
+go get github.com/thomasbeukema/ratelimit
 ```
 
 
@@ -25,11 +25,11 @@ package main
 
 import "fmt"
 import "time" // Needed for Duration
-import "github.com/thomasbeukema/ratelimiter" // Import the package
+import "github.com/thomasbeukema/ratelimit" // Import the package
 
 func main() {
 	// Create a new Limiter with a capacity of 60 for an interval of 1 minute
-	lmt := ratelimiter.NewLimiter(60, time.Minute)
+	lmt := ratelimit.NewLimiter(60, time.Minute)
 	
 	// Loop 69 times
 	for i:=0; i<=69; i++ {
@@ -49,7 +49,7 @@ LimiterPool allows you to easily manage any amount of Limiters. It is designed t
 package main
 
 import "time"
-import "github.com/thomasbeukema/ratelimiter"
+import "github.com/thomasbeukema/ratelimit"
 
 // Function to decide which Limiters to remove from pool
 func cleanWhen(id string, lmt *ratelimit.Limiter) bool {
@@ -68,20 +68,20 @@ func cleanWhen(id string, lmt *ratelimit.Limiter) bool {
 }
 
 func main() {
-	pool := ratelimiter.NewPool() // Create new pool instance
+	pool := ratelimit.NewPool() // Create new pool instance
 	
 	/*
 		We give every Limiter in the pool an id of userNumber. In a production environment 
 		you'd use a username, JWT token, IP address, etc as ID.
 	*/
 	
-	userOneLimiter := ratelimiter.NewLimiter(10, time.Minute) // Create new Limiter instance
+	userOneLimiter := ratelimit.NewLimiter(10, time.Minute) // Create new Limiter instance
 	pool.Register("userOne", userOneLimiter) // Register Limiter in pool with ID 'userOne'
 	
-	userTwoLimiter := ratelimiter.NewLimiter(20, time.Minute) // Create new Limiter instance
+	userTwoLimiter := ratelimit.NewLimiter(20, time.Minute) // Create new Limiter instance
 	pool.Register("userTwo", userTwoLimiter) // Register Limiter in pool with ID 'userTwo'
 	
-	userThreeLimiter := ratelimiter.NewLimiter(30, time.Minute) // Create new Limiter instance
+	userThreeLimiter := ratelimit.NewLimiter(30, time.Minute) // Create new Limiter instance
 	pool.Register("userThree", userThreeLimiter) // Register Limiter in pool with ID 'userThree'
 
 	limiterOne := pool.Find("userOne") // Retrieve Limiter by ID
