@@ -15,7 +15,7 @@ type LimiterPool struct {
 func NewPool() *LimiterPool {
 	pool := new(LimiterPool)                     // instantiate LimiterPool
 	pool.limiters = make(map[string]*Limiter, 0) // instantiate map of limiters
-
+	pool.mut = new(sync.Mutex)
 	return pool
 }
 
